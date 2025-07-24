@@ -1,0 +1,109 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "85e2c11853dd6c69b1953a6ec3ad661cd0ce3df55e4e5beff92365b6ed601171",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/api/v1/transactions_controller.rb",
+      "line": 255,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:transaction).permit(:account_id, :date, :amount, :name, :description, :notes, :currency, :category_id, :merchant_id, :nature, :tag_ids => ([]))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Api::V1::TransactionsController",
+        "method": "transaction_params"
+      },
+      "user_input": ":account_id",
+      "confidence": "High",
+      "cwe_id": [
+        915
+      ],
+      "note": "account_id is properly validated in create action - line 79 ensures account belongs to user's family: family.accounts.find(transaction_params[:account_id])"
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "aaccd8db0be34afdc88e5af08d91ae2e8b7765dfea2f3fc6e1c37db0adc7b991",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/invitations_controller.rb",
+      "line": 58,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:invitation).permit(:email, :role)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "InvitationsController",
+        "method": "invitation_params"
+      },
+      "user_input": ":role",
+      "confidence": "Medium",
+      "cwe_id": [
+        915
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Dangerous Eval",
+      "warning_code": 13,
+      "fingerprint": "c154514a0f86341473e4abf35e77721495b326c7855e4967d284b4942371819c",
+      "check_name": "Evaluation",
+      "message": "Dynamic string evaluated as code",
+      "file": "app/helpers/styled_form_builder.rb",
+      "line": 5,
+      "link": "https://brakemanscanner.org/docs/warning_types/dangerous_eval/",
+      "code": "class_eval(\"      def #{selector}(method, options = {})\\n        form_options = options.slice(:label, :label_tooltip, :inline, :container_class, :required)\\n        html_options = options.except(:label, :label_tooltip, :inline, :container_class)\\n\\n        build_field(method, form_options, html_options) do |merged_options|\\n          super(method, merged_options)\\n        end\\n      end\\n\", \"app/helpers/styled_form_builder.rb\", (5 + 1))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "StyledFormBuilder",
+        "method": null
+      },
+      "user_input": null,
+      "confidence": "Weak",
+      "cwe_id": [
+        913,
+        95
+      ],
+      "note": "Uses similar pattern to Rails internal form builder"
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "fb6f7abeabc405d6882ffd41dbe8016403ef39307a5c6b4cd7b18adfaf0c24bf",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/import/configurations/show.html.erb",
+      "line": 34,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(partial => permitted_import_configuration_path(Current.family.imports.find(params[:import_id])), { :locals => ({ :import => Current.family.imports.find(params[:import_id]) }) })",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "Import::ConfigurationsController",
+          "method": "show",
+          "line": 7,
+          "file": "app/controllers/import/configurations_controller.rb",
+          "rendered": {
+            "name": "import/configurations/show",
+            "file": "app/views/import/configurations/show.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "import/configurations/show"
+      },
+      "user_input": "params[:import_id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
+      "note": ""
+    }
+  ],
+  "brakeman_version": "7.0.2"
+}

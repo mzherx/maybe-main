@@ -1,0 +1,65 @@
+<div id="<%= dom_id import %>" class="flex items-center justify-between mx-4 py-4">
+
+  <div class="flex items-center gap-2 mb-1">
+    <%= link_to import_path(import), class: "text-sm text-primary hover:underline" do %>
+      <% if import.account.present? %>
+        <%= import.account.name + " " %>
+      <% end %>
+
+      <%= t(".label", type: import.type.titleize, datetime: import.updated_at.strftime("%b %-d, %Y at %l:%M %p")) %>
+    <% end %>
+
+    <% if import.pending? %>
+      <span class="px-1 py text-xs rounded-full bg-gray-500/5 text-secondary border border-alpha-black-50">
+        <%= t(".in_progress") %>
+      </span>
+    <% elsif import.importing? %>
+      <span class="px-1 py text-xs animate-pulse rounded-full bg-orange-500/5 text-orange-500 border border-alpha-black-50">
+        <%= t(".uploading") %>
+      </span>
+    <% elsif import.failed? %>
+      <span class="px-1 py text-xs rounded-full bg-red-500/5 text-red-500 border border-alpha-black-50">
+        <%= t(".failed") %>
+      </span>
+    <% elsif import.reverting? %>
+      <span class="px-1 py text-xs rounded-full bg-orange-500/5 text-orange-500 border border-alpha-black-50">
+        <%= t(".reverting") %>
+      </span>
+    <% elsif import.revert_failed? %>
+      <span class="px-1 py text-xs rounded-full bg-red-500/5 text-red-500 border border-alpha-black-50">
+        <%= t(".revert_failed") %>
+      </span>
+    <% elsif import.complete? %>
+      <span class="px-1 py text-xs rounded-full bg-green-500/5 text-green-500 border border-alpha-black-50">
+        <%= t(".complete") %>
+      </span>
+    <% end %>
+  </div>
+
+  <%= render DS::Menu.new do |menu| %>
+    <% menu.with_item(variant: "link", text: t(".view"), href: import_path(import), icon: "eye") %>
+
+    <% if import.complete? || import.revert_failed? %>
+      <% menu.with_item(
+        variant: "button",
+        text: t(".revert"),
+        href: revert_import_path(import),
+        icon: "rotate-ccw",
+        method: :put,
+        confirm: CustomConfirm.new(
+          title: "Revert import?",
+          body: "This will delete transactions that were imported, but you will still be able to review and re-import your data at any time.",
+          btn_text: "Revert"
+        )) %>
+
+    <% else %>
+      <% menu.with_item(
+        variant: "button",
+        text: t(".delete"),
+        href: import_path(import),
+        icon: "trash-2",
+        method: :delete,
+        confirm: CustomConfirm.for_resource_deletion("import")) %>
+    <% end %>
+  <% end %>
+</div>

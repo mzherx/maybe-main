@@ -1,0 +1,91 @@
+<%# locals: (family:, active_tab:, mobile: false) %>
+
+<div id="account-sidebar-tabs">
+  <% if family.missing_data_provider? %>
+    <details class="group bg-yellow-tint-10 rounded-lg p-2 text-yellow-600 mb-3 text-xs">
+      <summary class="flex items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+          <%= icon "triangle-alert", size: "sm", color: "warning" %>
+          <p class="font-medium">Missing historical data</p>
+        </div>
+
+        <%= icon("chevron-down", color: "warning", class: "group-open:transform group-open:rotate-180") %>
+      </summary>
+      <div class="text-xs py-2 space-y-2">
+        <p>Maybe uses Synth API to fetch historical exchange rates, security prices, and more.  This data is required to calculate accurate historical account balances.</p>
+
+        <p>
+          <%= link_to "Add your Synth API key here.", settings_hosting_path, class: "text-yellow-600 underline" %>
+        </p>
+      </div>
+    </details>
+  <% end %>
+
+  <%= render DS::Tabs.new(active_tab: active_tab, session_key: "account_sidebar_tab", testid: "account-sidebar-tabs") do |tabs| %>
+    <% tabs.with_nav do |nav| %>
+      <% nav.with_btn(id: "asset", label: "Assets") %>
+      <% nav.with_btn(id: "liability", label: "Debts") %>
+      <% nav.with_btn(id: "all", label: "All") %>
+    <% end %>
+
+    <% tabs.with_panel(tab_id: "asset") do %>
+      <div class="space-y-2">
+        <%= render DS::Link.new(
+          text: "New asset",
+          variant: "ghost",
+          href: new_account_path(step: "method_select", classification: "asset"),
+          icon: "plus",
+          frame: :modal,
+          full_width: true,
+          class: "justify-start"
+        ) %>
+
+        <div>
+          <% family.balance_sheet.assets.account_groups.each do |group| %>
+            <%= render "accounts/accountable_group", account_group: group, mobile: mobile %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <% tabs.with_panel(tab_id: "liability") do %>
+      <div class="space-y-2">
+        <%= render DS::Link.new(
+            text: "New debt",
+            variant: "ghost",
+            href: new_account_path(step: "method_select", classification: "liability"),
+            icon: "plus",
+            frame: :modal,
+            full_width: true,
+            class: "justify-start"
+          ) %>
+
+        <div>
+          <% family.balance_sheet.liabilities.account_groups.each do |group| %>
+            <%= render "accounts/accountable_group", account_group: group, mobile: mobile %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <% tabs.with_panel(tab_id: "all") do %>
+      <div class="space-y-2">
+        <%= render DS::Link.new(
+            text: "New account",
+            variant: "ghost",
+            full_width: true,
+            href: new_account_path(step: "method_select"),
+            icon: "plus",
+            frame: :modal,
+            class: "justify-start"
+          ) %>
+
+        <div>
+          <% family.balance_sheet.account_groups.each do |group| %>
+            <%= render "accounts/accountable_group", account_group: group, mobile: mobile, all_tab: true %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

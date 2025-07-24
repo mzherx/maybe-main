@@ -1,0 +1,42 @@
+<%= tag.div id: id, data: { bulk_select_target: "group" }, class: "bg-container-inset rounded-xl p-1 w-full" do %>
+  <details class="group">
+    <summary>
+      <div class="py-2 px-4 flex items-center justify-between font-medium text-xs text-secondary">
+        <div class="flex pl-0.5 items-center gap-4">
+          <%= check_box_tag "#{date}_entries_selection",
+                          class: ["checkbox checkbox--light", "hidden": entries.size == 0],
+                          id: "selection_entry_#{date}",
+                          data: { action: "bulk-select#toggleGroupSelection" } %>
+
+          <p class="uppercase space-x-1.5">
+            <%= tag.span I18n.l(date, format: :long) %>
+            <span>&middot;</span>
+            <%= tag.span entries.size %>
+          </p>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <span class="font-medium"><%= end_balance_money.format %></span>
+            <%= render DS::Tooltip.new(text: "The end of day balance, after all transactions and adjustments", placement: "left", size: "sm") %>
+          </div>
+          <%= helpers.icon "chevron-down", class: "group-open:rotate-180" %>
+        </div>
+      </div>
+    </summary>
+
+    <div class="p-4">
+      <% if balance %>
+        <%= render UI::Account::BalanceReconciliation.new(balance: balance, account: account) %>
+      <% else %>
+        <p class="text-sm text-secondary">No balance data available for this date</p>
+      <% end %>
+    </div>
+  </details>
+
+  <div class="bg-container shadow-border-xs rounded-lg">
+    <% entries.each do |entry| %>
+      <%= render entry, view_ctx: "account" %>
+    <% end %>
+  </div>
+<% end %>

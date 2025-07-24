@@ -1,0 +1,13 @@
+<%= link_to href, **merged_opts do %>
+  <% if icon && (icon_position != "right") %>
+    <%= helpers.icon(icon, size: size, color: icon_color) %>
+  <% end %>
+
+  <% unless icon_only? %>
+    <%= text %>
+  <% end %>
+
+  <% if icon && icon_position == "right" %>
+    <%= helpers.icon(icon, size: size, color: icon_color) %>
+  <% end %>
+<% end %>

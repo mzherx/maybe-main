@@ -1,0 +1,13 @@
+---
+en:
+  layouts:
+    auth:
+      existing_account: Already have an account?
+      no_account: New to Maybe?
+      sign_in: Sign in
+      sign_up: Create account
+      your_account: Your account
+    shared:
+      footer:
+        privacy_policy: Privacy Policy
+        terms_of_service: Terms of Service

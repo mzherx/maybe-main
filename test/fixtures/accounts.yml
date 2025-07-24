@@ -1,0 +1,92 @@
+other_asset:
+  family: dylan_family
+  name: Collectable Account
+  balance: 550
+  currency: USD
+  accountable_type: OtherAsset
+  accountable: one
+  status: active
+
+other_liability:
+  family: dylan_family
+  name: IOU (personal debt to friend)
+  balance: 200
+  currency: USD
+  accountable_type: OtherLiability
+  accountable: one
+  status: active
+
+depository:
+  family: dylan_family
+  name: Checking Account
+  balance: 5000
+  currency: USD
+  accountable_type: Depository
+  accountable: one
+  status: active
+
+connected:
+  family: dylan_family
+  name: Plaid Depository Account
+  balance: 5000
+  currency: USD
+  subtype: checking
+  accountable_type: Depository
+  accountable: two
+  plaid_account: one
+  status: active
+
+credit_card:
+  family: dylan_family
+  name: Credit Card
+  balance: 1000
+  currency: USD
+  accountable_type: CreditCard
+  accountable: one
+  status: active
+
+investment:
+  family: dylan_family
+  name: Robinhood Brokerage Account
+  balance: 10000
+  cash_balance: 5000
+  currency: USD
+  accountable_type: Investment
+  accountable: one
+  status: active
+
+loan:
+  family: dylan_family
+  name: Mortgage Loan
+  balance: 500000
+  currency: USD
+  accountable_type: Loan
+  accountable: one
+  status: active
+
+property:
+  family: dylan_family
+  name: 123 Maybe Court
+  balance: 550000
+  currency: USD
+  accountable_type: Property
+  accountable: one
+  status: active
+
+vehicle:
+  family: dylan_family
+  name: Honda Accord
+  balance: 18000
+  currency: USD
+  accountable_type: Vehicle
+  accountable: one
+  status: active
+
+crypto:
+  family: dylan_family
+  name: Bitcoin
+  balance: 10000
+  currency: USD
+  accountable_type: Crypto
+  accountable: one
+  status: active

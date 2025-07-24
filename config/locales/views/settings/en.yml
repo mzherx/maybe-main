@@ -1,0 +1,97 @@
+---
+en:
+  settings:
+    billings:
+      show:
+        page_title: Billing
+        subscription_subtitle: Update your subscription and billing details
+        subscription_title: Manage subscription
+    preferences:
+      show:
+        country: Country
+        currency: Currency
+        date_format: Date format
+        general_subtitle: Configure your preferences
+        general_title: General
+        default_period: Default Period
+        language: Language
+        page_title: Preferences
+        theme_dark: Dark
+        theme_light: Light
+        theme_subtitle: Choose a preferred theme for the app
+        theme_system: System
+        theme_title: Theme
+        timezone: Timezone
+    profiles:
+      destroy:
+        cannot_remove_self: You cannot remove yourself from the account.
+        member_removal_failed: There was a problem removing the member.
+        member_removed: Member was successfully removed.
+        not_authorized: You are not authorized to remove members.
+      show:
+        confirm_delete:
+          body: Are you sure you want to permanently delete your account? This action
+            is irreversible.
+          title: Delete account?
+        confirm_reset:
+          body: Are you sure you want to reset your account? This will delete all your accounts, categories, merchants, tags, and other data. This action cannot be undone.
+          title: Reset account?
+        confirm_remove_invitation:
+          body: Are you sure you want to remove the invitation for %{email}?
+          title: Remove Invitation
+        confirm_remove_member:
+          body: Are you sure you want to remove %{name} from your account?
+          title: Remove Member
+        danger_zone_title: Danger Zone
+        delete_account: Delete account
+        delete_account_warning: Deleting your account will permanently remove all
+          your data and cannot be undone.
+        reset_account: Reset account
+        reset_account_warning: Resetting your account will delete all your accounts, categories, merchants, tags, and other data, but keep your user account intact.
+        email: Email
+        first_name: First Name
+        household_form_input_placeholder: Enter household name
+        household_form_label: Household name
+        household_subtitle: Invite family members, partners and other inviduals.  Invitees
+          can login to your household and access your shared accounts.
+        household_title: Household
+        invitation_link: Invitation link
+        invite_member: Add member
+        last_name: Last Name
+        page_title: Account
+        pending: Pending
+        profile_subtitle: Customize how you appear on Maybe
+        profile_title: Profile
+        remove_invitation: Remove Invitation
+        remove_member: Remove Member
+        save: Save
+    securities:
+      show:
+        page_title: Security
+    settings_nav:
+      accounts_label: Accounts
+      api_key_label: API Key
+      billing_label: Billing
+      categories_label: Categories
+      feedback_label: Feedback
+      general_section_title: General
+      imports_label: Imports
+      logout: Logout
+      merchants_label: Merchants
+      other_section_title: More
+      preferences_label: Preferences
+      profile_label: Account
+      rules_label: Rules
+      security_label: Security
+      self_hosting_label: Self hosting
+      tags_label: Tags
+      transactions_section_title: Transactions
+      whats_new_label: What's new
+    settings_nav_link_large:
+      next: Next
+      previous: Back
+    user_avatar_field:
+      accepted_formats: JPG or PNG. 5MB max.
+      choose: Upload photo
+      choose_label: (optional)
+      change: Change photo

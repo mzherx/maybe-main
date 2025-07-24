@@ -1,0 +1,47 @@
+<%= content_for :header_nav do %>
+  <%= render "budgets/budget_nav", budget: @budget %>
+<% end %>
+
+<%= content_for :previous_path, budget_path(@budget) %>
+<%= content_for :cancel_path, budget_path(@budget) %>
+
+<div>
+  <div class="space-y-4">
+    <div class="text-center space-y-2">
+      <h1 class="text-3xl text-primary font-medium">Setup your budget</h1>
+      <p class="text-secondary text-sm max-w-sm mx-auto">
+        Enter your monthly earnings and planned spending below to setup your budget.
+      </p>
+    </div>
+
+    <div class="mx-auto max-w-lg">
+      <%= styled_form_with model: @budget, class: "space-y-3", data: { controller: "budget-form" } do |f| %>
+        <%= f.money_field :budgeted_spending, label: "Budgeted spending", required: true, disable_currency: true %>
+        <%= f.money_field :expected_income, label: "Expected income", required: true, disable_currency: true %>
+
+        <% if @budget.estimated_income && @budget.estimated_spending %>
+          <div class="border border-tertiary rounded-lg p-3 flex">
+            <%= icon "sparkles" %>
+            <div class="ml-2 space-y-1 text-sm">
+              <h4 class="text-primary">Autosuggest income & spending budget</h4>
+              <p class="text-secondary">
+                This will be based on transaction history. AI can make mistakes, verify before continuing.
+              </p>
+            </div>
+
+            <%= render DS::Toggle.new(
+              id: "auto_fill",
+              data: {
+                action: "change->budget-form#toggleAutoFill",
+                budget_form_income_param: { key: "budget_expected_income", value: sprintf("%.2f", @budget.estimated_income) },
+                budget_form_spending_param: { key: "budget_budgeted_spending", value: sprintf("%.2f", @budget.estimated_spending) }
+              }
+            ) %>
+          </div>
+        <% end %>
+
+        <%= f.submit "Continue" %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<%# locals: (breadcrumbs:) %>
+
+<div class="py-2 flex items-center gap-2">
+  <% breadcrumbs.each_with_index do |(name, path), index| %>
+    <% if index > 0 %>
+      <%= icon("chevron-right", color: "gray", size: "sm") %>
+    <% end %>
+
+    <% if path.present? && index < breadcrumbs.size - 1 %>
+      <%= link_to name, path, class: "text-sm text-gray-500 font-medium" %>
+    <% elsif index == breadcrumbs.size - 1 %>
+      <span class="text-primary font-medium text-sm"><%= name %></span>
+    <% else %>
+      <span class="text-sm text-gray-500 font-medium"><%= name %></span>
+    <% end %>
+  <% end %>
+</div>

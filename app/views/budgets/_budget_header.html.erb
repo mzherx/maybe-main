@@ -1,0 +1,48 @@
+<%# locals: (budget:, previous_budget:, next_budget:, latest_budget:) %>
+
+<div class="flex items-center gap-1 mb-4">
+  <div class="flex items-center gap-2">
+    <% if budget.previous_budget_param %>
+      <%= render DS::Link.new(
+        variant: "icon",
+        icon: "chevron-left",
+        href: budget_path(budget.previous_budget_param),
+      ) %>
+    <% else %>
+      <span class="text-subdued">
+        <%= icon "chevron-left", color: "current" %>
+      </span>
+    <% end %>
+
+    <% if budget.next_budget_param %>
+      <%= render DS::Link.new(
+        variant: "icon",
+        icon: "chevron-right",
+        href: budget_path(budget.next_budget_param),
+      ) %>
+    <% else %>
+      <span class="text-subdued">
+        <%= icon "chevron-right", color: "current" %>
+      </span>
+    <% end %>
+  </div>
+
+  <%= render DS::Menu.new(variant: "button") do |menu| %>
+    <% menu.with_button class: "flex items-center gap-1 hover:bg-alpha-black-25 cursor-pointer rounded-md p-2"  do %>
+      <span class="text-primary font-medium text-lg lg:text-base"><%= @budget.name %></span>
+      <%= icon("chevron-down") %>
+    <% end %>
+
+    <% menu.with_custom_content do %>
+      <%= render "budgets/picker", family: Current.family, year: budget.start_date.year %>
+    <% end %>
+  <% end %>
+
+  <div class="ml-auto">
+    <%= render DS::Link.new(
+        text: "Today",
+        variant: "outline",
+        href: budget_path(Budget.date_to_param(Date.current)),
+    ) %>
+  </div>
+</div>

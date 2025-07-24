@@ -1,0 +1,16 @@
+<%# app/views/invite_codes/_invite_code.html.erb %>
+<div class="invite_code pt-2">
+  <div class="flex items-center justify-between p-2 w-1/2 bg-gray-25 rounded-md" data-controller="clipboard">
+    <div>
+      <span data-clipboard-target="source" class="text-sm font-medium"><%= invite_code.token %></span>
+    </div>
+    <button data-action="clipboard#copy" class="shrink-0 z-10 inline-flex items-center px-1 text-sm text-secondary font-sm text-center" type="button">
+      <span data-clipboard-target="iconDefault">
+        <%= icon "copy" %>
+      </span>
+      <span class="hidden inline-flex items-center" data-clipboard-target="iconSuccess">
+        <%= icon "check" %>
+      </span>
+    </button>
+  </div>
+</div>

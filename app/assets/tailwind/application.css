@@ -1,0 +1,175 @@
+@import 'tailwindcss';
+
+@import "./maybe-design-system.css";
+
+@import "./geist-font.css";
+@import "./geist-mono-font.css";
+
+@plugin "@tailwindcss/typography";
+@plugin "@tailwindcss/forms";
+
+@import "./simonweb_pickr.css";
+
+@layer components {
+  .pcr-app{
+    position: static !important;
+    background: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+  .pcr-color-palette{
+      height: 12em !important;
+  }
+  .pcr-palette{
+      border-radius: 10px !important;
+  }
+  .pcr-palette:before{
+      border-radius: 10px !important;
+  }
+  .pcr-color-chooser{
+      height: 1.5em !important;
+  }
+  .pcr-picker{
+      height: 20px !important;
+      width: 20px !important;
+  }
+}
+
+.combobox {
+  .hw-combobox__main__wrapper,
+  .hw-combobox__input {
+    @apply bg-container text-primary w-full;
+  }
+
+  .hw-combobox__main__wrapper {
+    @apply border-0 p-0 focus:border-0 ring-0 focus:ring-0 shadow-none focus:shadow-none focus-within:shadow-none;
+  }
+
+  .hw-combobox__listbox {
+    @apply absolute top-[160%] right-0 w-full bg-transparent rounded z-30;
+  }
+
+  .hw-combobox__label {
+    @apply block text-xs text-gray-500 peer-disabled:text-gray-400;
+  }
+  
+  .hw-combobox__option {
+    @apply bg-container hover:bg-container-hover;
+  }
+
+  .hw_combobox__pagination__wrapper {
+    @apply h-px;
+
+    &:only-child {
+      @apply bg-transparent;
+    }
+  }
+
+  --hw-border-color: rgba(0, 0, 0, 0.2);
+  --hw-handle-width: 20px;
+  --hw-handle-height: 20px;
+  --hw-handle-offset-right: 0px;
+}
+
+/* Typography */
+.prose {
+  @apply max-w-none text-primary; 
+
+  a {
+    @apply text-link;
+  }
+
+  h2 {
+    @apply text-xl font-medium text-primary;
+  }
+
+  h3 {
+    @apply text-lg font-medium text-primary;
+  }
+
+  li {
+    @apply m-0 text-primary;
+  }
+
+  details {
+    @apply mb-4 rounded-xl mt-3.5;
+  }
+
+  summary {
+    @apply flex items-center gap-1;
+  }
+
+  video {
+    @apply m-0 rounded-b-xl;
+  }
+}
+
+.prose--github-release-notes {
+  .octicon {
+    @apply inline-block overflow-visible align-text-bottom fill-current;
+  }
+
+  .dropdown-caret {
+    @apply content-none border-4 border-b-0 border-transparent border-t-gray-500 size-0 inline-block;
+  }
+
+  .user-mention {
+    @apply font-bold;
+  }
+}
+
+.prose--ai-chat {
+  @apply break-words;
+
+  p, li {
+    @apply text-sm text-primary;
+  }
+
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.5);
+    border-radius: 3px; 
+  }
+}
+
+/* Custom scrollbar implementation for Windows browsers */
+.windows {
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #d6d6d6;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a6a6a6;
+  }  
+}
+
+.scrollbar {
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #d6d6d6;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #a6a6a6;
+  }
+}

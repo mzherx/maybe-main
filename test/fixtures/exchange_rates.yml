@@ -1,0 +1,11 @@
+one:
+  from_currency: EUR
+  to_currency: GBP
+  rate: 1.0986
+  date: <%= Date.current %>
+
+two:
+  from_currency: EUR
+  to_currency: GBP
+  rate: 1.0926
+  date: <%= 1.day.ago.to_date %>

@@ -1,0 +1,12 @@
+---
+en:
+  password_resets:
+    edit:
+      title: Reset password
+    new:
+      requested: Please check your email for a link to reset your password.
+      submit: Reset password
+      title: Reset password
+    update:
+      invalid_token: Invalid token.
+      success: Your password has been reset.

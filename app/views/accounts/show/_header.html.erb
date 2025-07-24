@@ -1,0 +1,44 @@
+<%# locals: (account:, title:, subtitle: nil) %>
+
+<header class="space-y-4">
+  <div class="flex items-center gap-4">
+    <div class="flex items-center gap-3 overflow-hidden">
+      <%= render "accounts/logo", account: account %>
+
+      <div class="flex items-center gap-2">
+        <div class="truncate">
+          <div class="flex items-center gap-3">
+            <h2 class="font-medium text-xl truncate <%= "animate-pulse" if account.syncing? %>"><%= title %></h2>
+            <% if account.draft? %>
+              <%= render DS::Link.new(
+                  text: "Complete setup",
+                  href: edit_account_path(account),
+                  variant: :outline,
+                  size: :sm,
+                  frame: :modal
+                ) %>
+            <% end %>
+          </div>
+          <% if subtitle.present? %>
+            <p class="text-sm text-secondary"><%= subtitle %></p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-1 ml-auto">
+      <% if Rails.env.development? || self_hosted? %>
+        <%= icon(
+            "refresh-cw",
+            as_button: true,
+            size: "sm",
+            href: account.linked? ? sync_plaid_item_path(account.plaid_account.plaid_item) : sync_account_path(account),
+            disabled: account.syncing?,
+            frame: :_top
+          ) %>
+      <% end %>
+
+      <%= render "accounts/show/menu", account: account %>
+    </div>
+  </div>
+</header>

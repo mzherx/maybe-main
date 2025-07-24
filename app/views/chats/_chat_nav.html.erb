@@ -1,0 +1,41 @@
+<%# locals: (chat:) %>
+
+<nav class="flex items-center justify-between">
+  <% path = chat.new_record? ? chats_path : chats_path(previous_chat_id: chat.id) %>
+
+  <div class="flex items-center gap-2 grow">
+    <%= render DS::Link.new(
+      id: "chat-nav-back",
+      variant: "icon",
+      icon: "menu",
+      href: path,
+      frame: chat_frame,
+      text: "All chats"
+    ) %>
+
+    <div class="grow">
+      <%= render "chats/chat_title", chat: chat, ctx: "chat" %>
+    </div>
+  </div>
+
+  <%= render DS::Menu.new(icon_vertical: true) do |menu| %>
+    <% menu.with_item(variant: "link", text: "Start new chat", href: new_chat_path, icon: "plus") %>
+
+    <% unless chat.new_record? %>
+      <% menu.with_item(
+        variant: "link",
+        text: "Edit chat title",
+        href: edit_chat_path(chat, ctx: "chat"),
+        icon: "pencil",
+        frame: dom_id(chat, "title")) %>
+
+      <% menu.with_item(
+        variant: "button",
+        text: "Delete chat",
+        href: chat_path(chat),
+        icon: "trash-2",
+        method: :delete,
+        confirm: CustomConfirm.for_resource_deletion("chat")) %>
+    <% end %>
+  <% end %>
+</nav>

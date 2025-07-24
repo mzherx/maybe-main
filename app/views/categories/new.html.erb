@@ -1,0 +1,6 @@
+<%= render DS::Dialog.new do |dialog| %>
+  <% dialog.with_header(title: t(".new_category")) %>
+  <% dialog.with_body do %>
+    <%= render "form", category: @category, categories: @categories %>
+  <% end %>
+<% end %>

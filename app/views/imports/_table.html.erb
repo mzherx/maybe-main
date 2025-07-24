@@ -1,0 +1,45 @@
+<%# locals: (headers: [], rows: [], caption: nil) %>
+<div class="bg-container-inset rounded-xl overflow-hidden md:mx-auto p-4">
+  <% if caption %>
+    <div class="flex items-center mb-4">
+      <div class="text-gray-500 mr-2">
+        <%= inline_svg_tag "icon-csv.svg", class: "w-4 h-4" %>
+      </div>
+      <h2 class="text-sm text-gray-500 font-medium"><%= caption %></h2>
+    </div>
+  <% end %>
+  <div class="inline-block min-w-fit sm:w-full rounded-lg shadow-border-xs text-sm bg-container">
+    <table class="min-w-full">
+      <thead>
+        <tr>
+          <% headers.each_with_index do |header, index| %>
+            <th class="
+              bg-container-inset px-3 py-2 font-medium border-b border-b-alpha-black-200 text-left whitespace-nowrap
+              <%= index == 0 ? "rounded-tl-lg" : "" %>
+              <%= index == headers.length - 1 ? "rounded-tr-lg" : "" %>
+              <%= index < headers.length - 1 ? "border-r border-r-alpha-black-200" : "" %>
+            ">
+              <%= header %>
+            </th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody class="">
+        <% rows.each_with_index do |row, row_index| %>
+          <tr>
+            <% row.each_with_index do |(header, value), col_index| %>
+              <td class="
+                px-3 py-2 whitespace-nowrap text-left
+                <%= col_index < row.length - 1 ? "border-r border-r-alpha-black-200" : "" %>
+                <%= !caption && row_index == rows.length - 1 && col_index == 0 ? "rounded-bl-md" : "" %>
+                <%= !caption && row_index == rows.length - 1 && col_index == row.length - 1 ? "rounded-br-md" : "" %>
+              ">
+                <%= value %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

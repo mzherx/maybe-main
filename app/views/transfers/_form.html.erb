@@ -1,0 +1,23 @@
+<%= styled_form_with model: transfer, class: "space-y-4", data: { turbo_frame: "_top", controller: "transfer-form" } do |f| %>
+  <% if transfer.errors.present? %>
+    <div class="text-destructive flex items-center gap-2">
+      <%= icon "circle-alert", size: "sm" %>
+      <p class="text-sm"><%= @transfer.errors.full_messages.to_sentence %></p>
+    </div>
+  <% end %>
+
+  <section>
+    <%= render "shared/transaction_type_tabs", active_tab: "transfer" %>
+  </section>
+
+  <section class="space-y-2">
+    <%= f.collection_select :from_account_id, Current.family.accounts.manual.alphabetically, :id, :name, { prompt: t(".select_account"), label: t(".from") }, required: true %>
+    <%= f.collection_select :to_account_id, Current.family.accounts.manual.alphabetically, :id, :name, { prompt: t(".select_account"), label: t(".to") }, required: true %>
+    <%= f.number_field :amount, label: t(".amount"), required: true, min: 0, placeholder: "100", step: 0.00000001 %>
+    <%= f.date_field :date, value: transfer.inflow_transaction&.entry&.date || Date.current, label: t(".date"), required: true, max: Date.current %>
+  </section>
+
+  <section>
+    <%= f.submit t(".submit") %>
+  </section>
+<% end %>

@@ -1,0 +1,29 @@
+<%# locals: (entry:) %>
+
+<%= tag.header class: "mb-4 space-y-1", id: dom_id(entry, :header) do %>
+  <div class="flex items-center gap-4">
+    <h3 class="font-medium">
+      <span class="text-2xl">
+        <%= format_money -entry.amount_money %>
+      </span>
+
+      <span class="text-lg text-secondary">
+        <%= entry.currency %>
+      </span>
+    </h3>
+
+    <% if entry.transaction.transfer? %>
+      <%= icon "arrow-left-right", class: "mt-1" %>
+    <% end %>
+
+    <% if entry.linked? %>
+      <span title="Linked with Plaid">
+        <%= icon("refresh-ccw", size: "sm") %>
+      </span>
+    <% end %>
+  </div>
+
+  <span class="text-sm text-secondary">
+    <%= I18n.l(entry.date, format: :long) %>
+  </span>
+<% end %>

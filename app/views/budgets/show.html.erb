@@ -1,0 +1,66 @@
+<div class="pb-12">
+  <%= render "budgets/budget_header",
+            budget: @budget,
+            previous_budget: @previous_budget,
+            next_budget: @next_budget,
+            latest_budget: @latest_budget %>
+
+  <div class="flex flex-col items-start gap-4 md:flex-row">
+    <div class="w-full md:max-w-[300px] space-y-4">
+      <div class="h-[300px] bg-container rounded-xl shadow-border-xs p-8">
+        <% if @budget.available_to_allocate.negative? %>
+          <%= render "budgets/over_allocation_warning", budget: @budget %>
+        <% else %>
+          <%= render "budgets/budget_donut", budget: @budget %>
+        <% end %>
+      </div>
+
+      <div>
+
+        <% if @budget.initialized? && @budget.available_to_allocate.positive? %>
+          <%= render DS::Tabs.new(active_tab: params[:tab].presence || "budgeted") do |tabs| %>
+            <% tabs.with_nav do |nav| %>
+              <% nav.with_btn(id: "budgeted", label: "Budgeted") %>
+              <% nav.with_btn(id: "actuals", label: "Actual") %>
+            <% end %>
+
+            <% tabs.with_panel(tab_id: "budgeted") do %>
+              <div class="bg-container rounded-xl shadow-border-xs">
+                <%= render "budgets/budgeted_summary", budget: @budget %>
+              </div>
+            <% end %>
+
+            <% tabs.with_panel(tab_id: "actuals") do %>
+              <div class="bg-container rounded-xl shadow-border-xs">
+                <%= render "budgets/actuals_summary", budget: @budget %>
+              </div>
+            <% end %>
+          <% end %>
+        <% else %>
+          <div class="bg-container rounded-xl shadow-border-xs">
+            <%= render "budgets/actuals_summary", budget: @budget %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="w-full grow bg-container rounded-xl shadow-border-xs p-4">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-medium">Categories</h2>
+
+        <% if @budget.initialized? %>
+          <%= render DS::Link.new(
+            text: "Edit",
+            variant: "secondary",
+            icon: "settings-2",
+            href: budget_budget_categories_path(@budget)
+          ) %>
+        <% end %>
+      </div>
+
+      <div class="bg-container-inset rounded-xl p-1">
+        <%= render "budgets/budget_categories", budget: @budget %>
+      </div>
+    </div>
+  </div>
+</div>

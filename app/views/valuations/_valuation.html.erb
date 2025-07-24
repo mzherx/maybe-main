@@ -1,0 +1,33 @@
+<%# locals: (entry:, **) %>
+
+<% valuation = entry.entryable %>
+
+<% color = valuation.opening_anchor? ? "#D444F1" : "var(--color-gray)" %>
+<% icon = valuation.opening_anchor? ? "plus" : "minus" %>
+
+<%= turbo_frame_tag dom_id(entry) do %>
+  <%= turbo_frame_tag dom_id(valuation) do %>
+    <div class="p-4 grid grid-cols-12 items-center text-primary text-sm font-medium">
+      <div class="col-span-8 flex items-center gap-4">
+        <%= check_box_tag dom_id(entry, "selection"),
+                        class: "checkbox checkbox--light",
+                        data: { id: entry.id, "bulk-select-target": "row", action: "bulk-select#toggleRowSelection" } %>
+
+        <div class="flex items-center gap-3">
+          <%= render DS::FilledIcon.new(icon: icon, size: "sm", hex_color: color, rounded: true) %>
+
+          <div class="truncate text-primary">
+            <%= link_to entry.name,
+                        entry_path(entry),
+                        data: { turbo_frame: "drawer", turbo_prefetch: false },
+                        class: "hover:underline" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-span-4 justify-self-end">
+        <%= tag.p format_money(entry.amount_money), class: "font-bold text-sm text-primary" %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

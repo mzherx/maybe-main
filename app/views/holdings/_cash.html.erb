@@ -1,0 +1,38 @@
+<%# locals: (account:) %>
+
+<% currency = Money::Currency.new(account.currency) %>
+
+<div class="grid grid-cols-12 items-center text-primary text-sm font-medium p-4">
+  <div class="col-span-4 flex items-center gap-4">
+    <%= render DS::FilledIcon.new(
+      variant: :text,
+      text: currency.symbol,
+      rounded: true,
+      size: "lg"
+    ) %>
+
+    <div class="space-y-0.5">
+      <%= tag.p t(".brokerage_cash"), class: "text-primary" %>
+      <%= tag.p account.currency, class: "text-secondary text-xs uppercase" %>
+    </div>
+  </div>
+
+  <div class="col-span-2 flex justify-end items-center gap-2">
+    <% cash_weight = account.balance.zero? ? 0 : account.cash_balance / account.balance * 100 %>
+
+    <%= render "shared/progress_circle", progress: cash_weight %>
+    <%= tag.p number_to_percentage(cash_weight, precision: 1) %>
+  </div>
+
+  <div class="col-span-2 text-right">
+    <%= tag.p "--", class: "text-secondary" %>
+  </div>
+
+  <div class="col-span-2 text-right">
+    <%= tag.p format_money account.cash_balance_money %>
+  </div>
+
+  <div class="col-span-2 text-right">
+    <%= tag.p "--", class: "text-secondary" %>
+  </div>
+</div>

@@ -1,0 +1,69 @@
+<%= tag.div data: { controller: "donut-chart", donut_chart_segments_value: budget.to_donut_segments_json }, class: "relative h-full" do %>
+  <div data-donut-chart-target="chartContainer" class="absolute inset-0 pointer-events-none"></div>
+
+  <div data-donut-chart-target="contentContainer" class="flex justify-center items-center h-full">
+    <div data-donut-chart-target="defaultContent" class="flex flex-col items-center">
+      <% if budget.initialized? %>
+        <div class="text-gray-600 text-sm mb-2">
+          <span>Spent</span>
+        </div>
+
+        <div class="mb-2 text-3xl font-medium <%= budget.available_to_spend.negative? ? "text-red-500" : "text-primary" %>">
+          <%= format_money(budget.actual_spending_money) %>
+        </div>
+
+        <%= render DS::Link.new(
+          text: "of #{budget.budgeted_spending_money.format}",
+          variant: "secondary",
+          icon: "pencil",
+          icon_position: "right",
+          size: "sm",
+          href: edit_budget_path(budget)
+        ) %>
+      <% else %>
+        <div class="text-subdued text-3xl mb-2">
+          <span><%= format_money Money.new(0, budget.currency || budget.family.currency) %></span>
+        </div>
+
+        <%= render DS::Link.new(
+          text: "New budget",
+          size: "sm",
+          icon: "plus",
+          href: edit_budget_path(budget)
+        ) %>
+      <% end %>
+    </div>
+
+    <% budget.budget_categories.each do |bc| %>
+      <div id="segment_<%= bc.id %>" class="hidden">
+        <div class="flex flex-col gap-2 items-center">
+          <div class="flex items-center gap-3">
+            <div class="w-1 h-3 rounded-xl" style="background-color: <%= bc.category.color %>"></div>
+            <p class="text-sm text-secondary"><%= bc.category.name %></p>
+          </div>
+
+          <p class="text-3xl font-medium <%= bc.available_to_spend.negative? ? "text-red-500" : "text-primary" %>">
+            <%= format_money(bc.actual_spending_money) %>
+          </p>
+
+          <%= render DS::Link.new(
+            text: "of #{bc.budgeted_spending_money.format(precision: 0)}",
+            variant: "secondary",
+            icon: "pencil",
+            icon_position: "right",
+            size: "sm",
+            href: budget_budget_categories_path(budget)
+          ) %>
+        </div>
+      </div>
+    <% end %>
+
+    <div id="segment_unused" class="hidden">
+      <p class="text-sm text-secondary text-center mb-2">Unused</p>
+
+      <p class="text-3xl font-medium text-primary">
+        <%= format_money(budget.available_to_spend_money) %>
+      </p>
+    </div>
+  </div>
+<% end %>

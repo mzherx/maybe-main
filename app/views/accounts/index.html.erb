@@ -1,0 +1,28 @@
+<header class="flex justify-between items-center text-primary font-medium">
+  <h1 class="text-xl"><%= t(".accounts") %></h1>
+  <div class="flex items-center gap-5">
+    <div class="flex items-center gap-2">
+      <%= render DS::Link.new(
+        text: "New account",
+        href: new_account_path(return_to: accounts_path),
+        variant: "primary",
+        icon: "plus",
+        frame: :modal
+      ) %>
+    </div>
+  </div>
+</header>
+
+<% if @manual_accounts.empty? && @plaid_items.empty? %>
+  <%= render "empty" %>
+<% else %>
+  <div class="space-y-2">
+    <% if @plaid_items.any? %>
+      <%= render @plaid_items.sort_by(&:created_at) %>
+    <% end %>
+
+    <% if @manual_accounts.any? %>
+      <%= render "accounts/index/manual_accounts", accounts: @manual_accounts %>
+    <% end %>
+  </div>
+<% end %>

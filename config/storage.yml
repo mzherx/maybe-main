@@ -1,0 +1,25 @@
+local:
+  service: Disk
+  root: <%= Rails.root.join("storage") %>
+
+test:
+  service: Disk
+  root: <%= Rails.root.join("tmp/storage") %>
+
+amazon:
+  service: S3
+  access_key_id: <%= ENV["S3_ACCESS_KEY_ID"] %> 
+  secret_access_key: <%= ENV["S3_SECRET_ACCESS_KEY"] %>
+  region: <%= ENV["S3_REGION"] || "us-east-1" %>
+  bucket: <%= ENV["S3_BUCKET"] %>
+
+cloudflare:
+  service: S3
+  endpoint: https://<%= ENV['CLOUDFLARE_ACCOUNT_ID'] %>.r2.cloudflarestorage.com
+  access_key_id: <%= ENV['CLOUDFLARE_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= ENV['CLOUDFLARE_SECRET_ACCESS_KEY'] %>
+  region: auto
+  bucket: <%= ENV['CLOUDFLARE_BUCKET'] %>
+  request_checksum_calculation: "when_required"
+  response_checksum_validation: "when_required"
+  

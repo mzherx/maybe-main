@@ -1,0 +1,54 @@
+<%# locals: (family:, year:) %>
+
+<%= turbo_frame_tag "budget_picker" do %>
+  <div class="p-3 space-y-4">
+    <div class="flex items-center gap-2 justify-between">
+      <% last_month_of_previous_year = Date.new(year - 1, 12, 1) %>
+
+      <% if Budget.budget_date_valid?(last_month_of_previous_year, family: family) %>
+        <%= link_to picker_budgets_path(year: year - 1), data: { turbo_frame: "budget_picker" }, class: "p-2 flex items-center justify-center hover:bg-alpha-black-25 rounded-md" do %>
+          <%= icon "chevron-left" %>
+        <% end %>
+      <% else %>
+        <span class="p-2 flex items-center justify-center text-subdued rounded-md">
+          <%= icon "chevron-left", color: "current" %>
+        </span>
+      <% end %>
+
+      <span class="w-40 text-center px-3 py-2 border border-tertiary rounded-md" data-budget-picker-target="year">
+        <%= year %>
+      </span>
+
+      <% first_month_of_next_year = Date.new(year + 1, 1, 1) %>
+
+      <% if Budget.budget_date_valid?(first_month_of_next_year, family: family) %>
+        <%= link_to picker_budgets_path(year: year + 1), data: { turbo_frame: "budget_picker" }, class: "p-2 flex items-center justify-center hover:bg-alpha-black-25 rounded-md" do %>
+          <%= icon "chevron-right" %>
+        <% end %>
+      <% else %>
+        <span class="p-2 flex items-center justify-center text-subdued rounded-md">
+          <%= icon "chevron-right", color: "current" %>
+        </span>
+      <% end %>
+    </div>
+
+    <div class="grid grid-cols-3 gap-2 text-sm text-center font-medium">
+      <% Date::ABBR_MONTHNAMES.compact.each do |month_name| %>
+        <% date = Date.strptime("#{month_name}-#{year}", "%b-%Y") %>
+        <% param_key = Budget.date_to_param(date) %>
+
+        <% if Budget.budget_date_valid?(date, family: family) %>
+          <%= render DS::Link.new(
+            variant: "ghost",
+            text: month_name,
+            href: budget_path(param_key),
+            full_width: true,
+            frame: :_top
+          ) %>
+        <% else %>
+          <span class="px-3 py-2 text-subdued rounded-md"><%= month_name %></span>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

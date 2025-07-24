@@ -1,0 +1,31 @@
+<%# locals: (category:) %>
+<% is_selected = category.id === @selected_category&.id %>
+
+<%= content_tag :div,
+      class: ["filterable-item flex justify-between items-center border-none rounded-lg px-2 py-1 group w-full hover:bg-container-inset-hover",
+              { "bg-container-inset": is_selected }],
+      data: { filter_name: category.name } do %>
+  <%= button_to transaction_category_path(
+        @transaction.entry,
+        entry: {
+          entryable_type: "Transaction",
+          entryable_attributes: { id: @transaction.id, category_id: category.id }
+        }
+      ),
+      method: :patch,
+      class: "flex w-full items-center gap-1.5 cursor-pointer focus:outline-none" do %>
+
+    <%= icon("check") if is_selected %>
+
+    <% if category.subcategory? %>
+      <%= icon("corner-down-right", size: "sm") %>
+    <% end %>
+
+    <%= render partial: "categories/badge", locals: { category: category } %>
+  <% end %>
+
+  <%= render DS::Menu.new do |menu| %>
+    <% menu.with_item(variant: "link", text: t(".edit"), icon: "pencil-line", href: edit_category_path(category), data: { turbo_frame: :modal }) %>
+    <% menu.with_item(variant: "link", text: t(".delete"), icon: "trash-2", href: new_category_deletion_path(category), data: { turbo_frame: :modal }, destructive: true) %>
+  <% end %>
+<% end %>

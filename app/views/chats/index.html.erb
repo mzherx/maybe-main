@@ -1,0 +1,32 @@
+<div data-controller="chat hotkey">
+  <%= turbo_frame_tag chat_frame do %>
+    <div class="flex flex-col h-full md:p-4">
+      <% if @chats.any? %>
+        <div class="grow flex flex-col">
+          <div class="flex items-center justify-between my-6">
+            <h1 class="text-xl font-medium">Chats</h1>
+            <%= render DS::Link.new(
+              id: "new-chat",
+              icon: "plus",
+              variant: "icon",
+              href: new_chat_path,
+              frame: chat_frame,
+              text: "New chat"
+            ) %>
+          </div>
+          <div class="space-y-2 px-0.5">
+            <%= render @chats %>
+          </div>
+        </div>
+      <% else %>
+        <div class="grow flex flex-col">
+          <h1 class="sr-only">Chats</h1>
+          <div class="mt-auto py-8">
+            <%= render "chats/ai_greeting" %>
+          </div>
+          <%= render "messages/chat_form" %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

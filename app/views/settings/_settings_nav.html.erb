@@ -1,0 +1,95 @@
+<%
+nav_sections = [
+  {
+    header: t(".general_section_title"),
+    items: [
+      { label: t(".profile_label"), path: settings_profile_path, icon: "circle-user" },
+      { label: t(".preferences_label"), path: settings_preferences_path, icon: "bolt" },
+      { label: t(".security_label"), path: settings_security_path, icon: "shield-check" },
+      { label: "API Key", path: settings_api_key_path, icon: "key" },
+      { label: t(".self_hosting_label"), path: settings_hosting_path, icon: "database", if: self_hosted? },
+      { label: t(".billing_label"), path: settings_billing_path, icon: "circle-dollar-sign", if: !self_hosted? },
+      { label: t(".accounts_label"), path: accounts_path, icon: "layers" },
+      { label: t(".imports_label"), path: imports_path, icon: "download" }
+    ]
+  },
+  {
+    header: t(".transactions_section_title"),
+    items: [
+      { label: t(".tags_label"), path: tags_path, icon: "tags" },
+      { label: t(".categories_label"), path: categories_path, icon: "shapes" },
+      { label: t(".rules_label"), path: rules_path, icon: "git-branch" },
+      { label: t(".merchants_label"), path: family_merchants_path, icon: "store" }
+    ]
+  },
+  {
+    header: t(".other_section_title"),
+    items: [
+      { label: t(".whats_new_label"), path: changelog_path, icon: "box" },
+      { label: t(".feedback_label"), path: feedback_path, icon: "megaphone" }
+    ]
+  }
+]
+%>
+
+<div class="space-y-4">
+  <div class="hidden lg:flex items-center gap-2 p-1.5">
+    <%= render DS::Link.new(
+      text: "Back",
+      icon: "chevron-left",
+      href: previous_path,
+      variant: "ghost",
+    ) %>
+    <%= link_to previous_path, class: "hidden md:block uppercase bg-surface-inset-hover rounded-sm px-1 py-0.5 text-xs text-secondary shadow-sm ml-1 pointer-events-none", data: { controller: "hotkey", hotkey: "Escape" } do %>
+      <kbd>esc</kbd>
+    <% end %>
+  </div>
+  <nav class="space-y-4 hidden md:block">
+    <% nav_sections.each do |section| %>
+      <section class="space-y-2">
+        <div class="flex items-center gap-2 px-3">
+          <h3 class="uppercase text-secondary font-medium text-xs"><%= section[:header] %></h3>
+          <%= render "shared/ruler", classes: "w-full" %>
+        </div>
+        <ul class="space-y-1">
+          <% section[:items].each do |item| %>
+            <% next if item[:if] == false %>
+            <li>
+              <%= render "settings/settings_nav_item", name: item[:label], path: item[:path], icon: item[:icon] %>
+            </li>
+          <% end %>
+        </ul>
+      </section>
+    <% end %>
+    <section>
+      <%= button_to session_path(Current.session), method: :delete, class: "flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-destructive hover:bg-surface-hover w-full" do %>
+        <%= icon("log-out", color: "current") %>
+        <span><%= t(".logout") %></span>
+      <% end %>
+    </section>
+  </nav>
+  <nav class="space-y-4 overflow-y-auto md:hidden" id="mobile-settings-nav" data-controller="preserve-scroll scroll-on-connect">
+    <ul class="flex space-y-1">
+      <li>
+        <%= render DS::Link.new(
+          text: "Back",
+          icon: "chevron-left",
+          href: previous_path,
+          variant: "ghost",
+        ) %>
+      </li>
+      <% nav_sections.each do |section| %>
+        <% section[:items].each do |item| %>
+          <% next if item[:if] == false %>
+          <li>
+            <%= render "settings/settings_nav_item", name: item[:label], path: item[:path], icon: item[:icon] %>
+          </li>
+        <% end %>
+      <% end %>
+      <%= button_to session_path(Current.session), method: :delete, class: "flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-destructive hover:bg-surface-hover w-full" do %>
+        <%= icon("log-out", color: "current") %>
+        <span><%= t(".logout") %></span>
+      <% end %>
+    </ul>
+  </nav>
+</div>

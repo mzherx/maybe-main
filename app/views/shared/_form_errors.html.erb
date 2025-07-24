@@ -1,0 +1,6 @@
+<%# locals: (model:) %>
+
+<div class="flex items-center gap-2">
+  <%= icon("alert-circle", size: "sm", color: "destructive") %>
+  <p class="text-destructive text-sm"><%= model.errors.full_messages.to_sentence %></p>
+</div>
